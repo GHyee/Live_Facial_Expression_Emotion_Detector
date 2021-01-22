@@ -7,5 +7,5 @@ argparse==1.4.0
 scipy==1.6.0
 scikit-learn==0.24.1
 pillow==8.1.0
-streamlit==0.74.1
+streamlit==0.75.0
 streamlit-webrtc
