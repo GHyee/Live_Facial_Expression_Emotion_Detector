@@ -1,7 +1,6 @@
 import streamlit as st
 import cv2
 import os
-import logging
 from inference import return_annotated_images
 from tensorflow.keras.models import load_model
 from streamlit_webrtc import (
@@ -16,9 +15,6 @@ WEBRTC_CLIENT_SETTINGS = ClientSettings(
     media_stream_constraints={"video": True, "audio": False},
 )
 
-# Load model at app start
-MODEL = load_model('faces_30.h5')
-logging.info('model loaded')
 
 def local_css(file_name):
     """ Method for reading styles.css and applying necessary changes to HTML"""
@@ -34,7 +30,7 @@ def app_object_detection():
             weightsPath = os.path.sep.join(['face_detector',
                                             "res10_300x300_ssd_iter_140000.caffemodel"])
             self.faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
-            self.emotionsNet = MODEL #emotions_detector.model
+            self.emotionsNet = load_model('emotions_detector.model')
 
         def transform(self, frame):
             image = frame.to_ndarray(format="bgr24")
@@ -64,17 +60,5 @@ def main():
 
     app_object_detection()
 
-    st.title("Webcam Live Feed")
-    
-    run = st.checkbox('Run')
-    FRAME_WINDOW = st.image([])
-    camera = cv2.VideoCapture(0)
-
-    while run:
-        _, frame = camera.read()
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        FRAME_WINDOW.image(frame)
-    else:
-        st.write('Stopped')
 
 main()
