@@ -9,3 +9,4 @@ scikit-learn==0.24.1
 pillow==8.1.0
 streamlit==0.75.0
 streamlit-webrtc
+aiortc==1.0.0
