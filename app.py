@@ -11,7 +11,8 @@ from streamlit_webrtc import (
 )
 
 WEBRTC_CLIENT_SETTINGS = ClientSettings(
-    rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+    rtc_configuration={"iceServers": [
+        {"urls": ["stun:stun.l.google.com:19302"]}]},
     media_stream_constraints={"video": True, "audio": False},
 )
 
@@ -26,15 +27,17 @@ def app_object_detection():
     class NNVideoTransformer(VideoTransformerBase):
 
         def __init__(self):
-            prototxtPath = os.path.sep.join(['face_detector', "deploy.prototxt"])
+            prototxtPath = os.path.sep.join(
+                ['face_detector', "deploy.prototxt"])
             weightsPath = os.path.sep.join(['face_detector',
                                             "res10_300x300_ssd_iter_140000.caffemodel"])
             self.faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
-            self.emotionsNet = load_model('emotions_detector.model')
+            self.emotionsNet = load_model('emotions.h5')
 
         def transform(self, frame):
             image = frame.to_ndarray(format="bgr24")
-            annotated_image = return_annotated_images(image, self.faceNet, self.emotionsNet)
+            annotated_image = return_annotated_images(
+                image, self.faceNet, self.emotionsNet)
 
             return annotated_image
 
