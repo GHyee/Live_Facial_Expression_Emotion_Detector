@@ -16,6 +16,8 @@ WEBRTC_CLIENT_SETTINGS = ClientSettings(
     media_stream_constraints={"video": True, "audio": False},
 )
 
+MODEL = load_model('emotions.h5')
+
 
 def local_css(file_name):
     """ Method for reading styles.css and applying necessary changes to HTML"""
@@ -32,7 +34,7 @@ def app_object_detection():
             weightsPath = os.path.sep.join(['face_detector',
                                             "res10_300x300_ssd_iter_140000.caffemodel"])
             self.faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
-            self.emotionsNet = load_model('emotions.h5')
+            self.emotionsNet = MODEL
 
         def transform(self, frame):
             image = frame.to_ndarray(format="bgr24")
